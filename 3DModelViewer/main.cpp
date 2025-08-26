@@ -1,6 +1,29 @@
 
+#include "WindowManager.h"
+#include "InputManager.h"
 
-int main()
+
+int main(int argc, char* argv[])
 {
+	WindowManager windowManager;
+	InputManager inputManager;
+
+	windowManager.OpenWindow();
+
+
+	while (!inputManager.CloseWindow()) 
+	{
+		inputManager.ProcessInput();
+		windowManager.SwapWindow();
+	}
+
+
+	windowManager.CloseWindow();
+
 	return 0;
+
 }
+
+
+
+
