@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 	windowManager.OpenWindow();
 
 
-	while (!inputManager.CloseWindow()) 
+	while (!inputManager.WindowShouldClose()) 
 	{
 		inputManager.ProcessInput();
 		windowManager.SwapWindow();

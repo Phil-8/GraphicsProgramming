@@ -9,8 +9,7 @@ class InputManager
 public:
 
 	void ProcessInput();
-
-	bool CloseWindow() const { return _quit; }
+	bool WindowShouldClose() const { return _quit; }
 
 private:
 
