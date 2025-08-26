@@ -9,7 +9,7 @@ void WindowManager::OpenWindow()
 	SetAttributes();
 	CreateWindow();
 	CreateContext();
-	SetBackgroundColor(1.0f, 1.0f, 1.0f);
+	SetBackgroundColor(0.0f, 0.0f, 255.0f);
 }
 
 
@@ -49,6 +49,12 @@ void WindowManager::SetBackgroundColor(float r, float g, float b)
 void WindowManager::SwapWindow()
 {
 	SDL_GL_SwapWindow(window);
+}
+
+
+void WindowManager::ClearScreenBuffers(GLenum bufferTypes)
+{
+	glClear(bufferTypes);
 }
 
 

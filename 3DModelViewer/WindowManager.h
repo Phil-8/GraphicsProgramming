@@ -18,6 +18,7 @@ public:
 	void CreateContext();
 	void SwapWindow();
 	void SetBackgroundColor(float r, float g, float b);
+	void ClearScreenBuffers(GLenum bufferTypes);
 	void CloseWindow();
 
 private:
