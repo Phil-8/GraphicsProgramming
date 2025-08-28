@@ -12,9 +12,9 @@ public:
 	SDL_Window* window;
 	SDL_GLContext context;
 
-	void OpenWindow();
+	void OpenWindow(int width, int height);
 	void SetAttributes();
-	void CreateWindow();
+	void CreateWindow(int width, int height);
 	void CreateContext();
 	void SwapWindow();
 	void SetBackgroundColor(float r, float g, float b);

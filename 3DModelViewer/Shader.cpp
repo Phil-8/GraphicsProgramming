@@ -1,93 +1,68 @@
 #include "Shader.h"
 #include <fstream>
 
+#include <iostream>
+#include <sstream>
+#include <vector>
 
-void Shader::Initialize()
-{
-	_shaderProgramID = 0;
-	_vertexShaderID = 0;
-	_fragmentShaderID = 0;
-
-
-	CreateShaderProgram();
-	CreateShaderObjects();
-	CompileShaders();
-	AttachShaders();
-	LinkShaderProgram();
-}
-
-
-void Shader::CreateShaderProgram()
+Shader::Shader(std::string vertexFilePath, std::string fragmentFilePath)
 {
 	_shaderProgramID = glCreateProgram();
-}
 
-
-void Shader::CreateShaderObjects()
-{
 	_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+	CompileShader(_vertexShaderID, ReadFile(vertexFilePath));
+
 	_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-}
+	CompileShader(_fragmentShaderID, ReadFile(fragmentFilePath));
 
-
-void Shader::CompileShader(GLuint shaderID, std::string fileName)
-{
-	const GLchar* finalCode;
-
-	std::string content = ReadFile(fileName);
-	finalCode = (const GLchar*)(content.c_str());
-	glShaderSource(shaderID, 1, &finalCode, nullptr);
-	glCompileShader(shaderID);
-}
-
-
-void Shader::CompileShaders()
-{
-	//CompileShader(vertexShaderID, vertexName);
-	//CompileShader(fragmentShaderID, fragmentName);
-}
-
-
-void Shader::AttachShaders() 
-{
 	glAttachShader(_shaderProgramID, _vertexShaderID);
 	glAttachShader(_shaderProgramID, _fragmentShaderID);
-}
 
-
-void Shader::LinkShaderProgram()
-{
 	glLinkProgram(_shaderProgramID);
-}
 
-
-void Shader::DetachShaders()
-{
-	glDetachShader(_shaderProgramID, _vertexShaderID);
-	glDetachShader(_shaderProgramID, _fragmentShaderID);
-}
-
-
-void Shader::DestroyShaders()
-{
 	glDeleteShader(_vertexShaderID);
 	glDeleteShader(_fragmentShaderID);
 }
 
+void Shader::CompileShader(GLuint shaderID, const char* shaderCode)
+{
+	glShaderSource(shaderID, 1, &shaderCode, nullptr);
+	glCompileShader(shaderID);
 
-void Shader::DestroyProgram()
+	GLint success;
+	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success); // Check for compilation success
+
+	if (!success)
+	{
+		GLint logLength;
+		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &logLength); // Get length of error log
+		std::vector<char> infoLog(logLength); // Allocate buffer for log
+		glGetShaderInfoLog(shaderID, logLength, nullptr, infoLog.data()); // Retrieve log
+
+		std::cerr << "Shader error.. compilation failed! \n" << infoLog.data() << std::endl; // Print the log
+	}
+}
+
+
+void Shader::Activate()
+{
+	glUseProgram(_shaderProgramID);
+}
+
+
+void Shader::Delete()
 {
 	glDeleteProgram(_shaderProgramID);
 }
 
 
-std::string Shader::ReadFile(std::string fileName)
+const char* Shader::ReadFile(std::string filePath)
 {
-	std::fstream file;
+	std::ifstream file;
 	std::string lineText = "";
 	std::string finalString = "";
 
-	file.open(fileName);
+	file.open(filePath);
 
 	while (!file.eof())
 	{
@@ -97,7 +72,19 @@ std::string Shader::ReadFile(std::string fileName)
 
 	file.close();
 
-	return finalString;
+
+	/*if (file)
+	{
+		std::string contents;
+		file.seekg(0, std::ios::end);
+		contents.resize(file.tellg());
+		file.seekg(0, std::ios::beg);
+		file.read(&contents[0], contents.size());
+		file.close();
+		return contents.c_str();
+	}*/
+
+	return finalString.c_str();
 }
 
 

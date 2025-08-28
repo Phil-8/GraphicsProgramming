@@ -1,15 +1,16 @@
 #include "WindowManager.h"
 
 
-void WindowManager::OpenWindow()
+void WindowManager::OpenWindow(int width, int height)
 {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
-	glewInit();
 
 	SetAttributes();
-	CreateWindow();
+	CreateWindow(width, height);
 	CreateContext();
-	SetBackgroundColor(0.0f, 0.0f, 255.0f);
+	SetBackgroundColor(0.0f, 0.0f, 0.0f);
+
+	glewInit();
 }
 
 
@@ -23,14 +24,14 @@ void WindowManager::SetAttributes()
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 }
 
 
-void WindowManager::CreateWindow()
+void WindowManager::CreateWindow(int width, int height)
 {
-	window = SDL_CreateWindow("3D Model Viewer", _windowWidth, _windowHeight, SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("3D Model Viewer", width, height, SDL_WINDOW_OPENGL);
 }
 
 
