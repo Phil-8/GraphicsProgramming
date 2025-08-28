@@ -26,7 +26,8 @@ public:
 	glm::vec3 GetOrientation() const { return _orientation; }
 	glm::vec3 GetUp() const { return _up; }
 
-	void Matrix(float FOVdegree, float nearPlane, float farPlane, Shader& shader, const char* uniform);
+	void UpdateMatrix(float FOVdegree, float nearPlane, float farPlane);
+	void Matrix(Shader& shader, const char* uniform);
 	void Move(EMoveDirection direction);
 
 
@@ -35,6 +36,7 @@ private:
 	glm::vec3 _position;
 	glm::vec3 _orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 _up = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::mat4 cameraMatrix = glm::mat4(1.0f);
 
 	int _width;
 	int _height;

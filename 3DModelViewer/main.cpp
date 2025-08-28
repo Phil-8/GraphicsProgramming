@@ -14,28 +14,27 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 800;
+const int WINDOW_WIDTH = 1000;
+const int WINDOW_HEIGHT = 1000;
 
 
-//model importieren
-//texturen
-//licht
+//optional:model importieren
 //(mouseinput -> camera)
 //(fix skybox)
 //(put skybox shader in skybox class)
-//code aufräumen
+//textur austauschen
+//skybox austauschen?
+//code aufräumen und struktur verbessern
+//speed anpassbar?
+//world coordinates?
 
-
-
-//int argc, char* argv[]
 
 
 int main()
 {
 	WindowManager windowManager;
 
-	//initializing window
+	//initialize window
 	windowManager.OpenWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
@@ -43,7 +42,7 @@ int main()
 
 	Shader defaultShader("default.vert", "default.frag");
 
-	Camera camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.0f, 0.0f, 2.0f));
+	Camera camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.0f, 0.5f, 4.0f));
 
 
 
@@ -53,24 +52,120 @@ int main()
 	//testing area
 
 	GLfloat vertices[] =
-	{
-		-0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,	0.0f, 0.0f,
-		-0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,	5.0f, 0.0f,
-		 0.5f, 0.0f, -0.5f,		0.0f, 1.0f, 1.0f,	0.0f, 0.0f,
-		 0.5f, 0.0f,  0.5f,		0.0f, 1.0f, 0.0f,	5.0f, 0.0f,
-		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 0.0f,	2.5f, 5.0f,
+	{//    COORDINATES       |       COLORS       |  TEX_COORD    |       NOMRALS
+		-0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,	0.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
+		-0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,	0.0f, 5.0f,		 0.0f, -1.0f,  0.0f,
+		 0.5f, 0.0f, -0.5f,		0.0f, 1.0f, 1.0f,	5.0f, 5.0f,		 0.0f, -1.0f,  0.0f,
+		 0.5f, 0.0f,  0.5f,		0.0f, 1.0f, 0.0f,	5.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
+
+		-0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,	0.0f, 0.0f,		-0.8f,  0.5f,  0.0f,
+		-0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,	5.0f, 0.0f,		-0.8f,  0.5f,  0.0f,
+		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,	2.5f, 5.0f,		-0.8f,  0.5f,  0.0f,
+
+		-0.5f, 0.0f, -0.5f,		1.0f, 1.0f, 0.0f,	5.0f, 0.0f,		 0.0f,  0.5f, -0.8f,
+		 0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,	0.0f, 0.0f,		 0.0f,  0.5f, -0.8f,
+		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,	2.5f, 5.0f,		 0.0f,  0.5f, -0.8f,
+
+		 0.5f, 0.0f, -0.5f,		1.0f, 1.0f, 0.0f,	0.0f, 0.0f,		 0.8f,  0.5f,  0.0f,
+		 0.5f, 0.0f,  0.5f,		1.0f, 0.0f, 1.0f,	5.0f, 0.0f,		 0.8f,  0.5f,  0.0f,
+		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,	2.5f, 5.0f,		 0.8f,  0.5f,  0.0f,
+
+		 0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,	5.0f, 0.0f,		 0.0f,  0.5f,  0.8f,
+		-0.5f, 0.0f,  0.5f,		1.0f, 0.0f, 1.0f,	0.0f, 0.0f,		 0.0f,  0.5f,  0.8f,
+		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,	2.5f, 5.0f,		 0.0f,  0.5f,  0.8f
 	};
 
 
 	GLuint indices[] =
 	{
+		 0,  1,  2,
+		 0,  2,  3,
+		 4,  6,  5,
+		 7,  9,  8,
+		10, 12, 11,
+		13, 15, 14
+	};
+
+
+	//lighting cube
+	GLfloat lightVertices[] =
+	{
+		-0.1f, -0.1f,  0.1f,
+		-0.1f, -0.1f, -0.1f,
+		 0.1f, -0.1f, -0.1f,
+		 0.1f, -0.1f,  0.1f,
+		-0.1f,  0.1f,  0.1f,
+		-0.1f,  0.1f, -0.1f,
+		 0.1f,  0.1f, -0.1f,
+		 0.1f,  0.1f,  0.1f,
+	};
+
+	GLuint lightIndices[] =
+	{
 		0, 1, 2,
 		0, 2, 3,
-		0, 1, 4,
-		1, 2, 4,
-		2, 3, 4,
-		3, 0, 4
+		0, 4, 7,
+		0, 7, 3,
+		3, 7, 6,
+		3, 6, 2,
+		2, 6, 5,
+		2, 5, 1,
+		1, 5, 4,
+		1, 4, 0,
+		4, 5, 6,
+		4, 6, 7
 	};
+
+
+	//light
+
+	Shader lightShader("light.vert", "light.frag");
+
+	GLuint lightVAO;
+	GLuint lightVBO;
+	GLuint lightEBO;
+
+	glGenVertexArrays(1, &lightVAO);
+	glGenBuffers(1, &lightVBO);
+	glGenBuffers(1, &lightEBO);
+
+	glBindVertexArray(lightVAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, lightVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(lightVertices), lightVertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lightEBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(lightIndices), lightIndices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+
+	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+
+	glm::vec3 lightPosition = glm::vec3(0.5f, 1.0f, 1.0f);
+	glm::mat4 lightModel = glm::mat4(1.0f);
+	lightModel = glm::translate(lightModel, lightPosition);
+
+	glm::vec3 pyramidPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::mat4 pyramidModel = glm::mat4(1.0f);
+	pyramidModel = glm::translate(pyramidModel, pyramidPosition);
+
+	lightShader.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(lightShader.ProgramID(), "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
+	glUniform4f(glGetUniformLocation(lightShader.ProgramID(), "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+
+
+	defaultShader.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(defaultShader.ProgramID(), "model"), 1, GL_FALSE, glm::value_ptr(pyramidModel));
+	glUniform4f(glGetUniformLocation(defaultShader.ProgramID(), "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	glUniform3f(glGetUniformLocation(defaultShader.ProgramID(), "lightPosition"), lightPosition.x, lightPosition.y, lightPosition.z);
+
 
 
 
@@ -93,16 +188,23 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	//position
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	//test
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	//color
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	//texture
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
-	//endtest
+
+	//normals
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+	glEnableVertexAttribArray(3);
+
+
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -188,7 +290,7 @@ int main()
 		//glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		windowManager.ClearScreenBuffers(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		defaultShader.Activate();
+		//defaultShader.Activate();
 
 
 
@@ -199,41 +301,26 @@ int main()
 
 
 
-		//3D stuff
-		/*rotation += 0.2f;
 
-		glm::mat4 model = glm::mat4(1.0f);
-		glm::mat4 view = glm::mat4(1.0f);
-		glm::mat4 projection = glm::mat4(1.0f);
-
-		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
-		projection = glm::perspective(glm::radians(45.0f), (float)(WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 100.0f);
-
-		int modelLocation = glGetUniformLocation(defaultShader.ProgramID(), "model");
-		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
-
-		int viewLocation = glGetUniformLocation(defaultShader.ProgramID(), "view");
-		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
-
-		int projectionLocation = glGetUniformLocation(defaultShader.ProgramID(), "projection");
-		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));*/
+		camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
+		defaultShader.Activate();
+		glUniform3f(glGetUniformLocation(defaultShader.ProgramID(), "cameraPosition"), camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
+		camera.Matrix(defaultShader, "cameraMatrix");
 
 
-
-
-		camera.Matrix(45.0f, 0.1f, 100.0f, defaultShader, "camMatrix");
-
-
-
-		//scale test
-		//glUniform1f(uniID, 0.5f);
-		//texture test
+		//texture binding & drawing
 		glBindTexture(GL_TEXTURE_2D, textureID);
-
-
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(int), GL_UNSIGNED_INT, 0);
+
+
+		lightShader.Activate();
+		camera.Matrix(lightShader, "cameraMatrix");
+		glBindVertexArray(lightVAO);
+
+		glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+
+
 
 
 

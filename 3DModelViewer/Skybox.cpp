@@ -6,9 +6,6 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-//test
-#include <iostream>
-
 
 float Skybox::_vertices[] =
 {
@@ -102,10 +99,8 @@ GLuint Skybox::GenerateCubeMap(std::vector<std::string> faces)
 			stbi_set_flip_vertically_on_load(false);
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		}
-		else std::cerr << "failed!";
 
 		stbi_image_free(data);
-
 	}
 
 	return textureID;
