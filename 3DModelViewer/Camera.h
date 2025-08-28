@@ -4,35 +4,44 @@
 #include <glm/glm.hpp>
 
 
+enum EMoveDirection
+{
+	Forward,
+	Backward,
+	Left,
+	Right,
+	Up,
+	Down
+};
+
+
 class Camera
 {
 
 public:
 
-	glm::vec3 Position;
-	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
-	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
-
-	int Width;
-	int Height;
-
-	float Speed = 0.1f;
-	float Sensitivity = 100.0f;
-
 	Camera(int width, int height, glm::vec3 position);
 
+	glm::vec3 GetPosition() const { return _position; }
+	glm::vec3 GetOrientation() const { return _orientation; }
+	glm::vec3 GetUp() const { return _up; }
+
 	void Matrix(float FOVdegree, float nearPlane, float farPlane, Shader& shader, const char* uniform);
+	void Move(EMoveDirection direction);
 
+
+private:
+
+	glm::vec3 _position;
+	glm::vec3 _orientation = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 _up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+	int _width;
+	int _height;
+
+	float _speed = 0.1f;
+	float _sensitivity = 100.0f;
 };
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,6 +1,7 @@
 
 #include "WindowManager.h"
-#include "InputManager.h"
+#include "InputHandler.h"
+#include "Camera.h"
 #include "Skybox.h"
 #include "Shader.h"
 #include <vector>
@@ -17,11 +18,13 @@ const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 800;
 
 
-//input -> camera -> movement
-//skybox
 //model importieren
 //texturen
 //licht
+//(mouseinput -> camera)
+//(fix skybox)
+//(put skybox shader in skybox class)
+//code aufräumen
 
 
 
@@ -36,12 +39,11 @@ int main()
 	windowManager.OpenWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
-	InputManager inputManager;
+	InputHandler inputHandler;
 
 	Shader defaultShader("default.vert", "default.frag");
-	//Shader skyboxShader("skybox.vert", "skybox.frag");
 
-
+	Camera camera(WINDOW_WIDTH, WINDOW_HEIGHT, glm::vec3(0.0f, 0.0f, 2.0f));
 
 
 
@@ -109,8 +111,6 @@ int main()
 
 
 
-	GLuint uniID = glGetUniformLocation(defaultShader.ProgramID(), "scale");
-
 
 
 	//texture
@@ -160,14 +160,17 @@ int main()
 		"Skybox/right.png",
 		"Skybox/left.png",
 		"Skybox/top.png",
-		"Skybox/bottom.png",
+		"Skybox/down.png",
 		"Skybox/front.png",
 		"Skybox/back.png",
 	};
 
-	Skybox skybox(skyboxFaces);
+	Skybox skybox(skyboxFaces, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+	Shader skyboxShader("skybox.vert", "skybox.frag");
 
+	skyboxShader.Activate();
+	glUniform1i(glGetUniformLocation(skyboxShader.ProgramID(), "skybox"), 0);
 
 
 
@@ -179,19 +182,25 @@ int main()
 
 	//main loop
 
-	while (!inputManager.WindowShouldClose())
+	while (!inputHandler.QuitApplication())
 	{
-		inputManager.ProcessInput();
+		inputHandler.ProcessInput(camera);
 		//glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		windowManager.ClearScreenBuffers(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		defaultShader.Activate();
 
 
+
+
+
+
 		//testing ----------------------------------------------------------------
 
-		rotation += 0.2f;
 
+
+		//3D stuff
+		/*rotation += 0.2f;
 
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = glm::mat4(1.0f);
@@ -208,18 +217,17 @@ int main()
 		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
 
 		int projectionLocation = glGetUniformLocation(defaultShader.ProgramID(), "projection");
-		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));*/
 
 
 
 
-
-
+		camera.Matrix(45.0f, 0.1f, 100.0f, defaultShader, "camMatrix");
 
 
 
 		//scale test
-		glUniform1f(uniID, 0.5f);
+		//glUniform1f(uniID, 0.5f);
 		//texture test
 		glBindTexture(GL_TEXTURE_2D, textureID);
 
@@ -229,6 +237,7 @@ int main()
 
 
 
+		skybox.Draw(camera, skyboxShader);
 		//end testing ---------------------------------------------------------------
 
 

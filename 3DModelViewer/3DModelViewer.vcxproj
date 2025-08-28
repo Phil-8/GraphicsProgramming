@@ -130,7 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -139,7 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Skybox.h" />
