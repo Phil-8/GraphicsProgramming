@@ -71,6 +71,7 @@ GLuint Skybox::GenerateCubeMap(std::vector<std::string> faces)
 {
 	GLuint textureID;
 	glGenTextures(1, &textureID);
+	//activate texture?
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -88,9 +89,11 @@ GLuint Skybox::GenerateCubeMap(std::vector<std::string> faces)
 
 		unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &channels, 0);
 
-		if (data) glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		if (data) glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
+		//unbind texture? glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+		//?? glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 	}
 
 	return textureID;
@@ -127,3 +130,7 @@ void Skybox::Draw()
 }
 
 
+//
+
+
+//glDeleteTextures(1, &textureID);

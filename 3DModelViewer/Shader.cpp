@@ -1,19 +1,20 @@
 #include "Shader.h"
 #include <fstream>
 
+//for fredco test
 #include <iostream>
-#include <sstream>
 #include <vector>
+
 
 Shader::Shader(std::string vertexFilePath, std::string fragmentFilePath)
 {
 	_shaderProgramID = glCreateProgram();
 
 	_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-	CompileShader(_vertexShaderID, ReadFile(vertexFilePath));
+	CompileShader(_vertexShaderID, ReadFile(vertexFilePath).c_str());
 
 	_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-	CompileShader(_fragmentShaderID, ReadFile(fragmentFilePath));
+	CompileShader(_fragmentShaderID, ReadFile(fragmentFilePath).c_str());
 
 	glAttachShader(_shaderProgramID, _vertexShaderID);
 	glAttachShader(_shaderProgramID, _fragmentShaderID);
@@ -24,10 +25,17 @@ Shader::Shader(std::string vertexFilePath, std::string fragmentFilePath)
 	glDeleteShader(_fragmentShaderID);
 }
 
+
 void Shader::CompileShader(GLuint shaderID, const char* shaderCode)
 {
 	glShaderSource(shaderID, 1, &shaderCode, nullptr);
 	glCompileShader(shaderID);
+
+
+
+
+
+	//fredco test code
 
 	GLint success;
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success); // Check for compilation success
@@ -56,7 +64,7 @@ void Shader::Delete()
 }
 
 
-const char* Shader::ReadFile(std::string filePath)
+std::string Shader::ReadFile(std::string filePath)
 {
 	std::ifstream file;
 	std::string lineText = "";
@@ -72,19 +80,7 @@ const char* Shader::ReadFile(std::string filePath)
 
 	file.close();
 
-
-	/*if (file)
-	{
-		std::string contents;
-		file.seekg(0, std::ios::end);
-		contents.resize(file.tellg());
-		file.seekg(0, std::ios::beg);
-		file.read(&contents[0], contents.size());
-		file.close();
-		return contents.c_str();
-	}*/
-
-	return finalString.c_str();
+	return finalString;
 }
 
 

@@ -23,6 +23,6 @@ private:
 	GLuint _fragmentShaderID;
 
 	void CompileShader(GLuint shaderID, const char* shaderCode);
-	const char* ReadFile(std::string filePath);
+	std::string ReadFile(std::string filePath);
 };
 
