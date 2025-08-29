@@ -37,7 +37,6 @@ unsigned int Skybox::_indices[] =
 };
 
 
-
 Skybox::Skybox(std::vector<std::string> faces, int width, int height, Shader& shader)
 {
 	_width = width;

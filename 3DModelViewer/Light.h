@@ -8,9 +8,9 @@ class Light
 
 public:
 
-	Light(glm::vec3 position, glm::vec4 color, Shader& lightSource, Shader& lightReceiver);
+	Light(glm::vec3 position, glm::vec4 color, Shader& lightShader, Shader& lightReceiver);
 
-	void Render(Shader& shader);
+	void Draw(Shader& shader);
 	void Delete();
 
 private:
@@ -23,4 +23,3 @@ private:
 	GLuint _ebo;
 
 };
-

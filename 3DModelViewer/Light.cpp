@@ -32,7 +32,7 @@ GLuint Light::_indices[] =
 };
 
 
-Light::Light(glm::vec3 position, glm::vec4 color, Shader& lightSource, Shader& lightReceiver)
+Light::Light(glm::vec3 position, glm::vec4 color, Shader& lightShader, Shader& defaultShader)
 {
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, position);
@@ -57,18 +57,17 @@ Light::Light(glm::vec3 position, glm::vec4 color, Shader& lightSource, Shader& l
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 
-	lightSource.Activate();
-	glUniformMatrix4fv(glGetUniformLocation(lightSource.GetProgramID(), "model"), 1, GL_FALSE, glm::value_ptr(model));
-	glUniform4f(glGetUniformLocation(lightSource.GetProgramID(), "lightColor"), color.x, color.y, color.z, color.w);
+	lightShader.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(lightShader.GetProgramID(), "model"), 1, GL_FALSE, glm::value_ptr(model));
+	glUniform4f(glGetUniformLocation(lightShader.GetProgramID(), "lightColor"), color.x, color.y, color.z, color.w);
 
-	lightReceiver.Activate();
-	glUniform4f(glGetUniformLocation(lightReceiver.GetProgramID(), "lightColor"), color.x, color.y, color.z, color.w);
-	glUniform3f(glGetUniformLocation(lightReceiver.GetProgramID(), "lightPosition"), position.x, position.y, position.z);
-
+	defaultShader.Activate();
+	glUniform4f(glGetUniformLocation(defaultShader.GetProgramID(), "lightColor"), color.x, color.y, color.z, color.w);
+	glUniform3f(glGetUniformLocation(defaultShader.GetProgramID(), "lightPosition"), position.x, position.y, position.z);
 }
 
 
-void Light::Render(Shader& shader)
+void Light::Draw(Shader& shader)
 {
 	shader.Activate();
 	glBindVertexArray(_vao);

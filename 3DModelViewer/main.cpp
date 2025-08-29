@@ -1,15 +1,15 @@
 #include "WindowManager.h"
 #include "InputHandler.h"
 #include "Camera.h"
-#include "Skybox.h"
 #include "Shader.h"
 #include "Pyramid.h"
 #include "Light.h"
+#include "Skybox.h"
 #include <glm/glm.hpp>
 #include <string>
 
-const int WINDOW_WIDTH = 1400;
-const int WINDOW_HEIGHT = 1000;
+const int WINDOW_WIDTH = 1280;
+const int WINDOW_HEIGHT = 720;
 
 int main()
 {
@@ -21,32 +21,32 @@ int main()
 	InputHandler inputHandler;
 
 	//initialize camera
-	glm::vec3 cameraPosition = glm::vec3(0.0f, 1.0f, 5.0f);
+	glm::vec3 cameraPosition = glm::vec3(0.5f, 1.0f, 5.0f);
 	Camera camera(WINDOW_WIDTH, WINDOW_HEIGHT, cameraPosition);
 
 	//initialize shader
-	Shader defaultShader("default.vert", "default.frag");
-	Shader lightShader("light.vert", "light.frag");
-	Shader skyboxShader("skybox.vert", "skybox.frag");
+	Shader defaultShader("Shader/default_vert.txt", "Shader/default_frag.txt");
+	Shader lightShader("Shader/light_vert.txt", "Shader/light_frag.txt");
+	Shader skyboxShader("Shader/skybox_vert.txt", "Shader/skybox_frag.txt");
 
 	//initialize pyramid model
 	glm::vec3 pyramidPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-	Pyramid pyramid(pyramidPosition, "metal.png", defaultShader);
+	Pyramid pyramid(pyramidPosition, "Textures/pyramidTexture.png", defaultShader);
 
 	//initialize light
 	glm::vec3 lightPosition = glm::vec3(1.0f, 2.0f, 1.8f);
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	Light light(lightPosition, lightColor, lightShader, defaultShader);
+	Light lightSource(lightPosition, lightColor, lightShader, defaultShader);
 
 	//initialize skybox
 	std::vector<std::string> skyboxFaces =
 	{
-		"Skybox/right.png",
-		"Skybox/left.png",
-		"Skybox/top.png",
-		"Skybox/bottom.png",
-		"Skybox/front.png",
-		"Skybox/back.png",
+		"Textures/skybox_right.png",
+		"Textures/skybox_left.png",
+		"Textures/skybox_top.png",
+		"Textures/skybox_bottom.png",
+		"Textures/skybox_front.png",
+		"Textures/skybox_back.png",
 	};
 	Skybox skybox(skyboxFaces, WINDOW_WIDTH, WINDOW_HEIGHT, skyboxShader);
 
@@ -57,15 +57,13 @@ int main()
 	//main loop
 	while (!inputHandler.QuitApplication())
 	{
-		windowManager.ClearScreenBuffers(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		inputHandler.ProcessInput(camera);
-		
 		camera.UpdateMatrix(defaultShader, lightShader);
+		
+		windowManager.ClearScreenBuffers(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		pyramid.Draw(defaultShader);
-
-		light.Render(lightShader);
-
+		lightSource.Draw(lightShader);
 		skybox.Draw(camera, skyboxShader);
 
 		windowManager.SwapWindow();
@@ -76,7 +74,7 @@ int main()
 	lightShader.Delete();
 	skyboxShader.Delete();
 	pyramid.Delete();
-	light.Delete();
+	lightSource.Delete();
 	skybox.Delete();
 
 	windowManager.CloseWindow();

@@ -13,11 +13,8 @@ public:
 
 	Skybox(std::vector<std::string> faces, int width, int height, Shader& shader);
 
-	GLuint GenerateCubeMap(std::vector<std::string> faces);
-
 	void Draw(Camera& camera, Shader& shader);
 	void Delete();
-
 
 private:
 
@@ -32,5 +29,6 @@ private:
 	static float _vertices[];
 	static unsigned int _indices[];
 
-};
+	GLuint GenerateCubeMap(std::vector<std::string> faces);
 
+};

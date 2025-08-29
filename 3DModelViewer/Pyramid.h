@@ -21,8 +21,6 @@ private:
 	GLuint _vao;
 	GLuint _vbo;
 	GLuint _ebo;
-
 	GLuint _textureID;
 
 };
-

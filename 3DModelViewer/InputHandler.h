@@ -15,7 +15,6 @@ public:
 	bool QuitApplication() const { return _quit; }
 
 	void ProcessInput(Camera& camera);
-	bool IsKeyDown(SDL_Scancode key);
 
 private:
 
@@ -28,7 +27,8 @@ private:
 	int _lastMouseX = 0;
 	int _lastMouseY = 0;
 
-	//application
+	//application state
 	bool _quit = false;
 
+	bool IsKeyDown(SDL_Scancode key);
 };

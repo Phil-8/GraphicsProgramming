@@ -3,7 +3,6 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
 GLfloat Pyramid::_vertices[] =
 
 {//    COORDINATES       |       COLORS          |  TEX_COORD    |       NOMRALS
@@ -41,8 +40,6 @@ GLuint Pyramid::_indices[] =
 };
 
 
-
-
 Pyramid::Pyramid(glm::vec3 position, const char* textureFielPath, Shader& shader)
 {
 
@@ -54,9 +51,7 @@ Pyramid::Pyramid(glm::vec3 position, const char* textureFielPath, Shader& shader
 	glUniformMatrix4fv(glGetUniformLocation(shader.GetProgramID(), "model"), 1, GL_FALSE, glm::value_ptr(model));
 
 
-
 	//buffer objects
-
 	glGenVertexArrays(1, &_vao);
 	glGenBuffers(1, &_vbo);
 	glGenBuffers(1, &_ebo);
@@ -91,10 +86,6 @@ Pyramid::Pyramid(glm::vec3 position, const char* textureFielPath, Shader& shader
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 
-
-
-	//applying texture
-
 	//texture
 
 	int width;
@@ -114,7 +105,6 @@ Pyramid::Pyramid(glm::vec3 position, const char* textureFielPath, Shader& shader
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-
 	if (data) glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -124,10 +114,8 @@ Pyramid::Pyramid(glm::vec3 position, const char* textureFielPath, Shader& shader
 	GLuint texUni = glGetUniformLocation(shader.GetProgramID(), "textureSampler");
 	shader.Activate();
 	glUniform1i(texUni, 0);
-
-
-
 }
+
 
 void Pyramid::Draw(Shader& shader)
 {
@@ -143,4 +131,5 @@ void Pyramid::Delete()
 	glDeleteVertexArrays(1, &_vao);
 	glDeleteBuffers(1, &_vbo);
 	glDeleteBuffers(1, &_ebo);
+	glDeleteTextures(1, &_textureID);
 }
