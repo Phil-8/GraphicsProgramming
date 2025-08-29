@@ -33,13 +33,13 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pyramid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,13 +53,13 @@
     <ClInclude Include="Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pyramid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -85,6 +85,18 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\Zwischenablage\schiggy.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="stone.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="fabric.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="brainDamage.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="technic.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>

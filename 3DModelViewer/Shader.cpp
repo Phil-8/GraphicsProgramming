@@ -32,23 +32,10 @@ void Shader::CompileShader(GLuint shaderID, const char* shaderCode)
 	glCompileShader(shaderID);
 
 
+	GLint compiled;
+	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &compiled);
 
-
-
-	//fredco test code
-
-	GLint success;
-	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success); // Check for compilation success
-
-	if (!success)
-	{
-		GLint logLength;
-		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &logLength); // Get length of error log
-		std::vector<char> infoLog(logLength); // Allocate buffer for log
-		glGetShaderInfoLog(shaderID, logLength, nullptr, infoLog.data()); // Retrieve log
-
-		std::cerr << "Shader error.. compilation failed! \n" << infoLog.data() << std::endl; // Print the log
-	}
+	if (!compiled) std::cerr << "Shader compilation failed" << std::endl;
 }
 
 

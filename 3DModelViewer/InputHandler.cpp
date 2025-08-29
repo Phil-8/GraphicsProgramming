@@ -1,7 +1,7 @@
 #include "InputHandler.h"
 
 
-InputHandler::InputHandler() 
+InputHandler::InputHandler()
 {
 	keyboardState = SDL_GetKeyboardState(nullptr);
 }
@@ -9,7 +9,7 @@ InputHandler::InputHandler()
 
 void InputHandler::ProcessInput(Camera& camera)
 {
-	//process keyboard inputs
+	//handle keyboard inputs
 	if (IsKeyDown(SDL_SCANCODE_W)) camera.Move(EMoveDirection::Forward);
 	if (IsKeyDown(SDL_SCANCODE_A)) camera.Move(EMoveDirection::Left);
 	if (IsKeyDown(SDL_SCANCODE_S)) camera.Move(EMoveDirection::Backward);
@@ -18,7 +18,7 @@ void InputHandler::ProcessInput(Camera& camera)
 	if (IsKeyDown(SDL_SCANCODE_LCTRL)) camera.Move(EMoveDirection::Down);
 
 
-	//check for application quit
+	//handle mouse inputs
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event))
@@ -26,16 +26,54 @@ void InputHandler::ProcessInput(Camera& camera)
 		switch (event.type)
 		{
 
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
+
+			if (event.button.button == SDL_BUTTON_RIGHT)
+			{
+				_rmbDown = true;
+				_initialClick = true;
+			}
+			break;
+
+
+		case SDL_EVENT_MOUSE_BUTTON_UP:
+
+			if (event.button.button == SDL_BUTTON_RIGHT) _rmbDown = false;
+			break;
+
+
+		case SDL_EVENT_MOUSE_MOTION:
+
+			if (_rmbDown)
+			{
+				if (_initialClick)
+				{
+					_lastMouseX = event.motion.x;
+					_lastMouseY = event.motion.y;
+					_initialClick = false;
+				}
+
+				float deltaX = event.motion.x - _lastMouseX;
+				float deltaY = _lastMouseY - event.motion.y;
+
+				_lastMouseX = event.motion.x;
+				_lastMouseY = event.motion.y;
+
+				camera.ProcessMouse(deltaX, deltaY);
+			}
+			break;
+
+
 		case SDL_EVENT_QUIT:
 			_quit = true;
 			break;
+
 
 		default:
 			break;
 
 		}
 	}
-
 }
 
 

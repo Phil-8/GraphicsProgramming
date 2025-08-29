@@ -18,10 +18,8 @@ const int WINDOW_WIDTH = 1000;
 const int WINDOW_HEIGHT = 1000;
 
 
-//optional:model importieren
-//(mouseinput -> camera)
 //(fix skybox)
-//(put skybox shader in skybox class)
+//(put skybox shader in skybox class?)
 //textur austauschen
 //skybox austauschen?
 //code aufräumen und struktur verbessern
@@ -52,27 +50,28 @@ int main()
 	//testing area
 
 	GLfloat vertices[] =
-	{//    COORDINATES       |       COLORS       |  TEX_COORD    |       NOMRALS
-		-0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,	0.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
-		-0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,	0.0f, 5.0f,		 0.0f, -1.0f,  0.0f,
-		 0.5f, 0.0f, -0.5f,		0.0f, 1.0f, 1.0f,	5.0f, 5.0f,		 0.0f, -1.0f,  0.0f,
-		 0.5f, 0.0f,  0.5f,		0.0f, 1.0f, 0.0f,	5.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
 
-		-0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,	0.0f, 0.0f,		-0.8f,  0.5f,  0.0f,
-		-0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,	5.0f, 0.0f,		-0.8f,  0.5f,  0.0f,
-		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,	2.5f, 5.0f,		-0.8f,  0.5f,  0.0f,
+	{//    COORDINATES       |       COLORS          |  TEX_COORD    |       NOMRALS
+		-0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,		0.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
+		-0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,		0.0f, 5.0f,		 0.0f, -1.0f,  0.0f,
+		 0.5f, 0.0f, -0.5f,		0.0f, 1.0f, 1.0f,		5.0f, 5.0f,		 0.0f, -1.0f,  0.0f,
+		 0.5f, 0.0f,  0.5f,		0.0f, 1.0f, 0.0f,		5.0f, 0.0f,		 0.0f, -1.0f,  0.0f,
 
-		-0.5f, 0.0f, -0.5f,		1.0f, 1.0f, 0.0f,	5.0f, 0.0f,		 0.0f,  0.5f, -0.8f,
-		 0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,	0.0f, 0.0f,		 0.0f,  0.5f, -0.8f,
-		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,	2.5f, 5.0f,		 0.0f,  0.5f, -0.8f,
+		-0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,		0.0f, 0.0f,		-0.8f,  0.5f,  0.0f,
+		-0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,		5.0f, 0.0f,		-0.8f,  0.5f,  0.0f,
+		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,		2.5f, 5.0f,		-0.8f,  0.5f,  0.0f,
 
-		 0.5f, 0.0f, -0.5f,		1.0f, 1.0f, 0.0f,	0.0f, 0.0f,		 0.8f,  0.5f,  0.0f,
-		 0.5f, 0.0f,  0.5f,		1.0f, 0.0f, 1.0f,	5.0f, 0.0f,		 0.8f,  0.5f,  0.0f,
-		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,	2.5f, 5.0f,		 0.8f,  0.5f,  0.0f,
+		-0.5f, 0.0f, -0.5f,		1.0f, 1.0f, 0.0f,		5.0f, 0.0f,		 0.0f,  0.5f, -0.8f,
+		 0.5f, 0.0f, -0.5f,		1.0f, 0.0f, 1.0f,		0.0f, 0.0f,		 0.0f,  0.5f, -0.8f,
+		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,		2.5f, 5.0f,		 0.0f,  0.5f, -0.8f,
 
-		 0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,	5.0f, 0.0f,		 0.0f,  0.5f,  0.8f,
-		-0.5f, 0.0f,  0.5f,		1.0f, 0.0f, 1.0f,	0.0f, 0.0f,		 0.0f,  0.5f,  0.8f,
-		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,	2.5f, 5.0f,		 0.0f,  0.5f,  0.8f
+		 0.5f, 0.0f, -0.5f,		1.0f, 1.0f, 0.0f,		0.0f, 0.0f,		 0.8f,  0.5f,  0.0f,
+		 0.5f, 0.0f,  0.5f,		1.0f, 0.0f, 1.0f,		5.0f, 0.0f,		 0.8f,  0.5f,  0.0f,
+		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,		2.5f, 5.0f,		 0.8f,  0.5f,  0.0f,
+
+		 0.5f, 0.0f,  0.5f,		1.0f, 1.0f, 0.0f,		5.0f, 0.0f,		 0.0f,  0.5f,  0.8f,
+		-0.5f, 0.0f,  0.5f,		1.0f, 0.0f, 1.0f,		0.0f, 0.0f,		 0.0f,  0.5f,  0.8f,
+		 0.0f, 0.8f,  0.0f,		0.0f, 1.0f, 1.0f,		2.5f, 5.0f,		 0.0f,  0.5f,  0.8f
 	};
 
 
@@ -148,12 +147,15 @@ int main()
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 
-	glm::vec3 lightPosition = glm::vec3(0.5f, 1.0f, 1.0f);
+	glm::vec3 lightPosition = glm::vec3(0.5f, 1.0f, 0.5f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	lightModel = glm::translate(lightModel, lightPosition);
 
+
+	float rotation = 0.0f;
 	glm::vec3 pyramidPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::mat4 pyramidModel = glm::mat4(1.0f);
+
 	pyramidModel = glm::translate(pyramidModel, pyramidPosition);
 
 	lightShader.Activate();
@@ -248,7 +250,6 @@ int main()
 
 
 
-	float rotation = 0.0f;
 
 	//-----------------------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------------
@@ -277,7 +278,7 @@ int main()
 
 
 
-
+	
 
 
 	glEnable(GL_DEPTH_TEST);
@@ -295,8 +296,6 @@ int main()
 
 
 
-
-
 		//testing ----------------------------------------------------------------
 
 
@@ -304,6 +303,8 @@ int main()
 
 		camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 		defaultShader.Activate();
+
+
 		glUniform3f(glGetUniformLocation(defaultShader.ProgramID(), "cameraPosition"), camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
 		camera.Matrix(defaultShader, "cameraMatrix");
 
