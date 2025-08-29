@@ -1,10 +1,6 @@
 #include "Shader.h"
-#include <fstream>
-
-//for fredco test
 #include <iostream>
-#include <vector>
-
+#include <fstream>
 
 Shader::Shader(std::string vertexFilePath, std::string fragmentFilePath)
 {
@@ -31,11 +27,11 @@ void Shader::CompileShader(GLuint shaderID, const char* shaderCode)
 	glShaderSource(shaderID, 1, &shaderCode, nullptr);
 	glCompileShader(shaderID);
 
-
+	//error check
 	GLint compiled;
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &compiled);
 
-	if (!compiled) std::cerr << "Shader compilation failed" << std::endl;
+	if (!compiled) std::cerr << "compile error" << std::endl;
 }
 
 
@@ -69,7 +65,3 @@ std::string Shader::ReadFile(std::string filePath)
 
 	return finalString;
 }
-
-
-
-

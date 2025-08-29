@@ -1,6 +1,5 @@
 #include "InputHandler.h"
 
-
 InputHandler::InputHandler()
 {
 	keyboardState = SDL_GetKeyboardState(nullptr);
@@ -16,7 +15,6 @@ void InputHandler::ProcessInput(Camera& camera)
 	if (IsKeyDown(SDL_SCANCODE_D)) camera.Move(EMoveDirection::Right);
 	if (IsKeyDown(SDL_SCANCODE_SPACE)) camera.Move(EMoveDirection::Up);
 	if (IsKeyDown(SDL_SCANCODE_LCTRL)) camera.Move(EMoveDirection::Down);
-
 
 	//handle mouse inputs
 	SDL_Event event;
@@ -71,7 +69,6 @@ void InputHandler::ProcessInput(Camera& camera)
 
 		default:
 			break;
-
 		}
 	}
 }
@@ -81,5 +78,3 @@ bool InputHandler::IsKeyDown(SDL_Scancode key)
 {
 	return keyboardState[key];
 }
-
-

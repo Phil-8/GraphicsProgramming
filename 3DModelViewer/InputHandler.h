@@ -32,4 +32,3 @@ private:
 	bool _quit = false;
 
 };
-

@@ -3,7 +3,6 @@
 #include <SDL3/SDL.h>
 #include <GL/glew.h>
 
-
 class WindowManager
 {
 
@@ -13,17 +12,15 @@ public:
 	SDL_GLContext context;
 
 	void OpenWindow(int width, int height);
-	void SetAttributes();
-	void CreateWindow(int width, int height);
-	void CreateContext();
 	void SwapWindow();
-	void SetBackgroundColor(float r, float g, float b);
 	void ClearScreenBuffers(GLenum bufferTypes);
 	void CloseWindow();
 
 private:
 
-	int _windowWidth = 1000;
-	int _windowHeight = 800;
-};
+	void SetAttributes();
+	void CreateWindow(int width, int height);
+	void CreateContext();
+	void SetBackgroundColor(float r, float g, float b);
 
+};

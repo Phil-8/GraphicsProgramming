@@ -3,14 +3,14 @@
 #include "Shader.h"
 #include <glm/glm.hpp>
 
-class Pyramid
+class Light
 {
 
 public:
 
-	Pyramid(glm::vec3 position, const char* textureFielPath, Shader& shader);
+	Light(glm::vec3 position, glm::vec4 color, Shader& lightSource, Shader& lightReceiver);
 
-	void Draw(Shader& shader);
+	void Render(Shader& shader);
 	void Delete();
 
 private:
@@ -21,8 +21,6 @@ private:
 	GLuint _vao;
 	GLuint _vbo;
 	GLuint _ebo;
-
-	GLuint _textureID;
 
 };
 

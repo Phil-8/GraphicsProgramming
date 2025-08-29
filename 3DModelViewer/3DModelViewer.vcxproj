@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pyramid.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -140,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Pyramid.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Skybox.h" />
@@ -157,8 +159,8 @@
     <Image Include="..\..\..\..\..\Zwischenablage\schiggy.png" />
     <Image Include="brainDamage.png" />
     <Image Include="fabric.png" />
+    <Image Include="metal.png" />
     <Image Include="stone.png" />
-    <Image Include="technic.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

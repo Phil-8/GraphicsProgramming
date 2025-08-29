@@ -42,6 +42,9 @@
     <ClCompile Include="Pyramid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowManager.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pyramid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -87,16 +93,16 @@
     <Image Include="..\..\..\..\..\Zwischenablage\schiggy.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="stone.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
     <Image Include="fabric.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="brainDamage.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="technic.png">
+    <Image Include="stone.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="metal.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
